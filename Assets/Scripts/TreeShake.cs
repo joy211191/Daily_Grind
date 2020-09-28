@@ -6,12 +6,7 @@ public class TreeShake : MonoBehaviour
 {
     public List<SubElements> treeElements;
 
-    private void Start()
-    {
-        
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void ShakeTree()
     {
         foreach (SubElements leaves in treeElements)
         {
