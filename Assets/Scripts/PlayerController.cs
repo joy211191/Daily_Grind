@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             anim.Play("Chop");
+
             rb2D.velocity = Vector2.zero;
         }
     }
@@ -48,7 +50,8 @@ public class PlayerController : MonoBehaviour
             if (Vector2.Distance(transform.position, camps[i].position) < distance)
             {
                 distance = Vector2.Distance(transform.position, camps[i].position);
-                nearestCamp = i;
+                if(camps[i].GetComponent<Camp>().discovered)
+                    nearestCamp = i;
             }
         }
         transform.position = camps[nearestCamp].position;
