@@ -20,6 +20,9 @@ public class CloudMovement : MonoBehaviour
     [SerializeField]
     GameObject trailObject;
 
+    [SerializeField]
+    float maxSpeed;
+
     private void Awake() {
         rb2D = GetComponent<Rigidbody2D>();
     }
@@ -28,6 +31,8 @@ public class CloudMovement : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
+        if (rb2D.velocity.magnitude > maxSpeed)
+            rb2D.velocity = maxSpeed * rb2D.velocity.normalized;
         trailObject.SetActive(rb2D.velocity.magnitude > 0.2f);
 
 
