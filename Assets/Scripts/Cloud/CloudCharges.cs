@@ -60,7 +60,7 @@ public class CloudCharges : MonoBehaviour
                 boostUpdated = true;
             }
         }
-        if (!updated) {
+        if (!updated&&timer<=0) {
              updated=cloudMovement.EnergyRecharge();
         }
         
