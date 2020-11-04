@@ -23,14 +23,20 @@ public class CloudMovement : MonoBehaviour
     [SerializeField]
     float maxSpeed;
 
+    CloudCharges cloudCharges;
+    SpriteRenderer spriteRenderer;
+
     private void Awake() {
         rb2D = GetComponent<Rigidbody2D>();
+        cloudCharges = GetComponent<CloudCharges>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate() {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-
+        burnRateMultiplier = cloudCharges.EffectiveBoostValue();
+        spriteRenderer.color = cloudCharges.ColorCheck();
         if (rb2D.velocity.magnitude > maxSpeed)
             rb2D.velocity = maxSpeed * rb2D.velocity.normalized;
         trailObject.SetActive(rb2D.velocity.magnitude > 0.2f);
