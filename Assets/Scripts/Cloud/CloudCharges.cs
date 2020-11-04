@@ -68,7 +68,7 @@ public class CloudCharges : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision) {
         if (collision.gameObject.tag == "Cloud") {
-            noInput = !Input.anyKeyDown;
+            noInput = !Input.anyKey;
             grayCloud = collision.gameObject.GetComponent<CloudValue>().gray;
         }
     }
