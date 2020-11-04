@@ -55,4 +55,22 @@ public class CloudMovement : MonoBehaviour
                 rb2D.AddForce(Vector2.up * verticalMovement * zeroEnergyMoveSpeed);
         }
     }
+
+    private void Update() {
+        float sizeTemp = energy / 100;
+        sizeTemp= Mathf.Clamp(sizeTemp, 0.2f, 1);
+        transform.localScale = new Vector3(sizeTemp, sizeTemp, 1);
+
+    }
+
+    public bool EnergyRecharge() {
+        if (energy < 100) {
+            energy += Time.deltaTime * baseBurnRate;
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
 }

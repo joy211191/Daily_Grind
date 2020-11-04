@@ -4,7 +4,17 @@ using UnityEngine;
 
 public class CloudCharges : MonoBehaviour
 {
+    CloudMovement cloudMovement;
     public List<bool> boostList = new List<bool>();
+    float timer = 3;
+    bool noInput;
+    bool grayCloud;
+    bool updated;
+    bool boostUpdated;
+
+    private void Awake() {
+        cloudMovement = GetComponent<CloudMovement>();
+    }
 
     public float EffectiveBoostValue() {
         float boostValue= 1 + (GrayCheck() * 0.25f);
@@ -25,5 +35,44 @@ public class CloudCharges : MonoBehaviour
                 counter++;
         }
         return counter;
+    }
+
+    private void Update() {
+        if (!boostUpdated) {
+            if (noInput)
+                timer -= Time.deltaTime;
+            else
+                timer = 3;
+
+            if (timer <= 0) {
+                updated = false;
+                List<bool> tempList = new List<bool>();
+                foreach (bool item in boostList) {
+                    tempList.Add(item);
+                }
+                for (int i = 0; i <boostList.Count-1; i++) {
+                    boostList[i+1]= tempList[i];
+                }
+                boostList[0] = grayCloud;
+                boostUpdated = true;
+            }
+        }
+        if (!updated) {
+             updated=cloudMovement.EnergyRecharge();
+        }
+        
+    }
+
+    private void OnCollisionStay2D(Collision2D collision) {
+        if (collision.gameObject.tag == "Cloud") {
+            noInput = !Input.anyKeyDown;
+            grayCloud = collision.gameObject.GetComponent<CloudValue>().gray;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision) {
+        boostUpdated = false;
+        updated = false;
+        timer = 3;
     }
 }
