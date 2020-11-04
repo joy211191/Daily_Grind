@@ -43,8 +43,8 @@ public class CloudMovement : MonoBehaviour
 
 
         if (energy > 0) {
-            rb2D.AddForce(Vector2.right * horizontalMovement * h);
-            rb2D.AddForce(Vector2.up * verticalMovement * v);
+            rb2D.AddForce(Vector2.right * horizontalMovement * h * burnRateMultiplier) ;
+            rb2D.AddForce(Vector2.up * verticalMovement * v * burnRateMultiplier);
             if (Mathf.Abs(h) > 0||Mathf.Abs(v)>0)
                 energy -= Time.deltaTime * baseBurnRate * burnRateMultiplier;
         }
