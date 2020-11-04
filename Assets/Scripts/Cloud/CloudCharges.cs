@@ -12,6 +12,9 @@ public class CloudCharges : MonoBehaviour
     bool updated;
     bool boostUpdated;
 
+    [SerializeField]
+    CloudValues cloudValues;
+
     private void Awake() {
         cloudMovement = GetComponent<CloudMovement>();
     }
@@ -22,8 +25,8 @@ public class CloudCharges : MonoBehaviour
     }
 
     public Color ColorCheck() {
-        float colorValue=0.9f-(GrayCheck()*0.25f);
-        colorValue = Mathf.Clamp(colorValue, 0.3f, 0.9f);
+        float colorValue= cloudValues.highestCloudColor -(GrayCheck()*0.25f);
+        colorValue = Mathf.Clamp(colorValue, cloudValues.lowestCloudColor,cloudValues.highestCloudColor);
         Color cloudColor = new Color(colorValue, colorValue, colorValue);
         return cloudColor;
     }
