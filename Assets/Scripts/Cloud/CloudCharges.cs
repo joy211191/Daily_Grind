@@ -15,6 +15,9 @@ public class CloudCharges : MonoBehaviour
     [SerializeField]
     CloudValues cloudValues;
 
+    [SerializeField]
+    AudioSource chargeSound;
+
     private void Awake() {
         cloudMovement = GetComponent<CloudMovement>();
     }
@@ -60,9 +63,13 @@ public class CloudCharges : MonoBehaviour
                 boostUpdated = true;
             }
         }
-        if (!updated&&timer<=0) {
-             updated=cloudMovement.EnergyRecharge();
+        if (!updated && timer <= 0) {
+            if (!chargeSound.isPlaying)
+                chargeSound.Play();
+            updated = cloudMovement.EnergyRecharge();
         }
+        else
+            chargeSound.Stop();
         
     }
 

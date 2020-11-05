@@ -26,6 +26,9 @@ public class CloudMovement : MonoBehaviour
     CloudCharges cloudCharges;
     SpriteRenderer spriteRenderer;
 
+    public AudioSource boostSound;
+    public AudioSource moveSound;
+
     private void Awake() {
         rb2D = GetComponent<Rigidbody2D>();
         cloudCharges = GetComponent<CloudCharges>();
@@ -40,19 +43,27 @@ public class CloudMovement : MonoBehaviour
         if (rb2D.velocity.magnitude > maxSpeed)
             rb2D.velocity = maxSpeed * rb2D.velocity.normalized;
         trailObject.SetActive(rb2D.velocity.magnitude > 0.2f);
-
+        Vector2 moveVector = new Vector2(h, v);
+        moveSound.volume = moveVector.magnitude;
+        boostSound.volume = moveVector.magnitude * (energy /100);
 
         if (energy > 0) {
             rb2D.AddForce(Vector2.right * horizontalMovement * h * burnRateMultiplier) ;
             rb2D.AddForce(Vector2.up * verticalMovement * v * burnRateMultiplier);
             if (Mathf.Abs(h) > 0||Mathf.Abs(v)>0)
                 energy -= Time.deltaTime * baseBurnRate * burnRateMultiplier;
+            if(!moveSound.isPlaying)
+                moveSound.Play();
+            if (!boostSound.isPlaying)
+                boostSound.Play();
         }
         else {
             bool jump = Input.GetButtonDown("Jump");
             rb2D.AddForce(Vector2.right * horizontalMovement * h* zeroEnergyMoveSpeed);
             if(jump)
                 rb2D.AddForce(Vector2.up * verticalMovement * zeroEnergyMoveSpeed);
+            if (!moveSound.isPlaying)
+                moveSound.Play();
         }
     }
 
