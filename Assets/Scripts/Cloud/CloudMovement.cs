@@ -46,7 +46,9 @@ public class CloudMovement : MonoBehaviour
         Vector2 moveVector = new Vector2(h, v);
         if (!moveSound.isPlaying)
             moveSound.Play();
-        moveSound.volume = rb2D.velocity.normalized.magnitude;
+        float temp= Mathf.Abs( rb2D.velocity.magnitude);
+        temp = Mathf.Clamp01(temp);
+        moveSound.volume = temp;
         boostSound.volume = moveVector.magnitude;
 
         if (energy > 0) {
